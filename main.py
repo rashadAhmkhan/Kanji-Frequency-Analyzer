@@ -43,11 +43,11 @@ def analyze_text(text):
         if is_kanji(char):
             kanji_counts[char] += 1
         # If it is kanji, add it to the counter.
-    return kanji_counts
+    return kanji_counts 
 
 # --- Main Execution ---
 if __name__ == "__main__":
-    # 1. Create a dummy file named 'sample.txt' with some Japanese text manually first.
+    # 1. Create a dummy file named 'sample.txt' with some Japanese text manually first.ṇ
     input_file = "sample.txt" 
     
     print(f"Reading {input_file}...")
@@ -56,6 +56,13 @@ if __name__ == "__main__":
     if content:
         print("Analyzing Kanji...")
         results = analyze_text(content)
-        
+
+        #counting kanji
+        total_kanji_found = sum(results.values())
+        char_count = len(content)
+        kanji_percentage = (total_kanji_found / char_count) * 100
+
+        print(f'Kanji Percentage: {kanji_percentage:.2f}%')
         # Print top 5 common Kanji
+        
         print("Top 5 Kanji:", results.most_common(5))
