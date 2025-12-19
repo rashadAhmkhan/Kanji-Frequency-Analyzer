@@ -45,6 +45,20 @@ def analyze_text(text):
         # If it is kanji, add it to the counter.
     return kanji_counts 
 
+def plot_results(counter):
+    import matplotlib.pyplot as plt
+    import matplotlib.font_manager as fm
+    plt.rcParams['font.family'] = ['Noto Sans CJK JP', 'sans-serif']
+    
+    # Get top 10 for the graph
+    common = counter.most_common(10)
+    labels, values = zip(*common) # Unzips the list of tuples
+    
+    # Create bar chart
+    plt.bar(labels, values)
+    plt.show()
+
+
 # --- Main Execution ---
 if __name__ == "__main__":
     # 1. Create a dummy file named 'sample.txt' with some Japanese text manually first.ṇ
@@ -66,3 +80,6 @@ if __name__ == "__main__":
         # Print top 5 common Kanji
         
         print("Top 5 Kanji:", results.most_common(5))
+
+        print("The GRaph Of Kanji-Frequency: ")
+        plot_results(results)
