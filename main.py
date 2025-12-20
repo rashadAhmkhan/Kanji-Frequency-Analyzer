@@ -49,17 +49,20 @@ def analyze_text(text):
 
 def plot_results(counter):
     import matplotlib.pyplot as plt
-    import matplotlib.font_manager as fm
+    import matplotlib as mpl
     
+    # This line tells Matplotlib to use the Japanese font specifically
+    mpl.rcParams['font.family'] = 'Noto Sans CJK JP'
     
-    # Get top 10 for the graph
     common = counter.most_common(10)
-    labels, values = zip(*common) # Unzips the list of tuples
+    labels, values = zip(*common)
     
-    # Create bar chart
-    plt.bar(labels, values)
+    plt.figure(figsize=(10, 6))
+    plt.bar(labels, values, color='skyblue')
+    plt.title("Top 10 Kanji Frequency")
+    plt.xlabel("Kanji")
+    plt.ylabel("Frequency")
     plt.show()
-
 
 #Getting Meaning Of Kanjii Version-3 of adding features I guess
 
