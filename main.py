@@ -1,5 +1,7 @@
 import collections
 import matplotlib.pyplot
+import requests
+
 # TODO: You will need a library to plot graphs later. Maybe 'matplotlib'?
 
 def read_file(filename):
@@ -48,7 +50,7 @@ def analyze_text(text):
 def plot_results(counter):
     import matplotlib.pyplot as plt
     import matplotlib.font_manager as fm
-    plt.rcParams['font.family'] = ['Noto Sans CJK JP', 'sans-serif']
+    
     
     # Get top 10 for the graph
     common = counter.most_common(10)
@@ -57,6 +59,26 @@ def plot_results(counter):
     # Create bar chart
     plt.bar(labels, values)
     plt.show()
+
+
+#Getting Meaning Of Kanjii Version-3 of adding features I guess
+
+
+def get_meaning(kanji):
+    """
+    Fetches the English meaning of a single Kanji from Jisho API.
+    """
+    url = f"https://jisho.org/api/v1/search/words?keyword={kanji}"
+    try:
+        response = requests.get(url)
+        data = response.json() # This converts the web response into a Python Dictionary
+        
+        # We navigate the dictionary to find the first English definition
+        # Jisho returns a list of results; we take the first one [0]
+        meaning = data['data'][0]['senses'][0]['english_definitions']
+        return ", ".join(meaning[:3]) # Join the first 3 meanings into a string
+    except:
+        return "Meaning not found"
 
 
 # --- Main Execution ---
@@ -77,9 +99,13 @@ if __name__ == "__main__":
         kanji_percentage = (total_kanji_found / char_count) * 100
 
         print(f'Kanji Percentage: {kanji_percentage:.2f}%')
-        # Print top 5 common Kanji
-        
-        print("Top 5 Kanji:", results.most_common(5))
 
+        # Print top 5 common Kanji
+        print("\n--- Top 5 Kanji & Meanings ---")
+        for kanji, count in results.most_common(5):
+            definition = get_meaning(kanji)
+            print(f"{kanji} (Count: {count}) -> {definition}")
+
+        #Geraph Of Top 5 Kanji
         print("The GRaph Of Kanji-Frequency: ")
         plot_results(results)
